@@ -1,0 +1,35 @@
+INFORME RÁPIDO - ANÁLISIS RNN OPTIMIZADO
+==================================================
+
+Fecha: 11/06/2025 23:11:21
+
+CONFIGURACIÓN:
+  sequence_length: 50
+  batch_size: 128
+  embedding_dim: 128
+  hidden_size: 256
+  num_layers: 1
+  dropout: 0.2
+  epochs: 5
+  learning_rate: 0.001
+  device: cuda
+
+RESULTADOS:
+
+RNN_Optimizado:
+  Accuracy: 0.3040
+  Loss: 2.3337
+  Perplejidad: 10.32
+
+LSTM_Optimizado:
+  Accuracy: 0.3080
+  Loss: 2.3306
+  Perplejidad: 10.28
+
+GRU_Optimizado:
+  Accuracy: 0.3080
+  Loss: 2.2870
+  Perplejidad: 9.85
+
+MEJOR MODELO: LSTM_Optimizado
+Accuracy: 0.3080

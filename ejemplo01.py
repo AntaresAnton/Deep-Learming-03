@@ -372,70 +372,68 @@ sequences, targets = create_sequences(text_processed, char_to_idx, SEQUENCE_LENG
 # CELDA 8: División de datos y creación de DataLoaders
 def create_data_splits(sequences, targets, config):
     print("\033[96mDividiendo datos en conjuntos de entrenamiento, validación y prueba...\033[0m")
-    
-    # Calcular tamaños
-    total_size = len(sequences)
-    train_size = int(0.8 * total_size)  # Más datos para entrenamiento
-    val_size = int(0.1 * total_size)
-    test_size = total_size - train_size - val_size
-    
-    # Dividir datos
-    train_sequences = sequences[:train_size]
-    train_targets = targets[:train_size]
-    
-    val_sequences = sequences[train_size:train_size + val_size]
-    val_targets = targets[train_size:train_size + val_size]
-    
-    test_sequences = sequences[train_size + val_size:]
-    test_targets = targets[train_size + val_size:]
-    
-    print(f"   \033[94mEntrenamiento: {len(train_sequences):,} secuencias ({len(train_sequences)/total_size*100:.1f}%)\033[0m")
-    print(f"   \033[94mValidación: {len(val_sequences):,} secuencias ({len(val_sequences)/total_size*100:.1f}%)\033[0m")
-    print(f"   \033[94mPrueba: {len(test_sequences):,} secuencias ({len(test_sequences)/total_size*100:.1f}%)\033[0m")
-    
-    # Crear datasets
-    train_dataset = TextDataset(train_sequences, train_targets)
-    val_dataset = TextDataset(val_sequences, val_targets)
-    test_dataset = TextDataset(test_sequences, test_targets)
-    
-    # Crear dataloaders
-    num_workers = 2 if torch.cuda.is_available() else 0
-    
-    train_loader = DataLoader(
-        train_dataset, 
-        batch_size=config['batch_size'], 
-        shuffle=True, 
-        num_workers=num_workers,
-        pin_memory=torch.cuda.is_available(),
-        drop_last=True
-    )
-    
-    val_loader = DataLoader(
-        val_dataset, 
-        batch_size=config['batch_size'], 
-        shuffle=False, 
-        num_workers=num_workers,
-        pin_memory=torch.cuda.is_available(),
-        drop_last=True
-    )
-    
-    test_loader = DataLoader(
-        test_dataset, 
-        batch_size=config['batch_size'], 
-        shuffle=False, 
-        num_workers=num_workers,
-        pin_memory=torch.cuda.is_available(),
-        drop_last=True
-    )
-    
-    print(f"   \033[94mBatches de entrenamiento: {len(train_loader)}\033[0m")
-    print(f"   \033[94mBatches de validación: {len(val_loader)}\033[0m")
-    print(f"   \033[94mBatches de prueba: {len(test_loader)}\033[0m")
-    
-    return train_loader, val_loader, test_loader
+    print("🔄 Recreando datasets y DataLoaders sin multiprocessing...")
 
-# Crear splits de datos
-train_loader, val_loader, test_loader = create_data_splits(sequences, targets, config)
+# Dividir datos
+train_size = int(0.7 * len(sequences))
+val_size = int(0.15 * len(sequences))
+
+train_sequences = sequences[:train_size]
+train_targets = targets[:train_size]
+
+val_sequences = sequences[train_size:train_size + val_size]
+val_targets = targets[train_size:train_size + val_size]
+
+test_sequences = sequences[train_size + val_size:]
+test_targets = targets[train_size + val_size:]
+
+print(f"📈 División de datos:")
+print(f"   Entrenamiento: {len(train_sequences):,} secuencias")
+print(f"   Validación: {len(val_sequences):,} secuencias")
+print(f"   Prueba: {len(test_sequences):,} secuencias")
+
+# Crear datasets
+train_dataset = TextDataset(train_sequences, train_targets)
+val_dataset = TextDataset(val_sequences, val_targets)
+test_dataset = TextDataset(test_sequences, test_targets)
+
+# Crear DataLoaders SIN multiprocessing (num_workers=0)
+train_loader = DataLoader(
+    train_dataset, 
+    batch_size=config['batch_size'], 
+    shuffle=True, 
+    num_workers=0,  # ¡IMPORTANTE: Sin multiprocessing!
+    pin_memory=False  # También desactivar pin_memory
+)
+
+val_loader = DataLoader(
+    val_dataset, 
+    batch_size=config['batch_size'], 
+    shuffle=False, 
+    num_workers=0,  # ¡IMPORTANTE: Sin multiprocessing!
+    pin_memory=False  # También desactivar pin_memory
+)
+
+test_loader = DataLoader(
+    test_dataset, 
+    batch_size=config['batch_size'], 
+    shuffle=False, 
+    num_workers=0,  # ¡IMPORTANTE: Sin multiprocessing!
+    pin_memory=False  # También desactivar pin_memory
+)
+
+print(f"✅ DataLoaders creados sin multiprocessing:")
+print(f"   📦 Batches de entrenamiento: {len(train_loader)}")
+print(f"   📦 Batches de validación: {len(val_loader)}")
+print(f"   📦 Batches de prueba: {len(test_loader)}")
+
+# Ejecutar entrenamiento principal
+print("\n🎯 Iniciando entrenamiento de modelos principales...")
+trained_models, histories, model_names = train_main_models(vocab_size, config, train_loader, val_loader, best_learning_rate)
+
+print(f"\n🎉 ¡Entrenamiento de todos los modelos completado!")
+print(f"✅ Modelos entrenados: {', '.join(model_names)}")
+
 
 # CELDA 9: Análisis de hiperparámetros mejorado
 def comprehensive_hyperparameter_analysis(sequences, targets, vocab_size, config):
@@ -497,104 +495,111 @@ def comprehensive_hyperparameter_analysis(sequences, targets, vocab_size, config
 
 # CELDA 10: Función de entrenamiento mejorada
 def train_model_with_progress(model, train_loader, val_loader, criterion, optimizer, scheduler, epochs, model_name):
-    print(f"\n\033[92mEntrenando modelo {model_name}...\033[0m")
+    print(f"\n🚀 Entrenando modelo {model_name}...")
     
-    # Listas para almacenar métricas
     train_losses = []
     val_losses = []
     train_accuracies = []
     val_accuracies = []
-    learning_rates = []
-    
-    # Configurar modelo para entrenamiento
-    model.train()
     
     best_val_loss = float('inf')
     patience_counter = 0
-    early_stopping_patience = 8
-    
-    # Scaler para mixed precision
-    scaler = torch.cuda.amp.GradScaler() if torch.cuda.is_available() else None
+    early_stopping_patience = 7
     
     for epoch in range(epochs):
         start_time = time.time()
         
-        # === ENTRENAMIENTO ===
+        # === FASE DE ENTRENAMIENTO ===
+        model.train()
         total_train_loss = 0
         correct_train = 0
         total_train = 0
         
-        model.train()
-        for batch_idx, (data, target) in enumerate(train_loader):
-            data, target = data.to(device, non_blocking=True), target.to(device, non_blocking=True)
-            
-            optimizer.zero_grad()
-            
-            # Mixed precision training
-            if scaler is not None:
-                with torch.cuda.amp.autocast():
-                    output = model(data)
-                    loss = criterion(output, target)
+        print(f"   📊 Época {epoch+1:2d}/{epochs} - Entrenando...", end="")
+        
+        try:
+            batch_count = 0
+            for batch_idx, (data, target) in enumerate(train_loader):
+                data, target = data.to(device), target.to(device)
                 
-                scaler.scale(loss).backward()
-                scaler.unscale_(optimizer)
-                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-                scaler.step(optimizer)
-                scaler.update()
-            else:
+                optimizer.zero_grad()
                 output = model(data)
                 loss = criterion(output, target)
                 loss.backward()
+                
+                # Gradient clipping para evitar exploding gradients
                 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+                
                 optimizer.step()
+                
+                total_train_loss += loss.item()
+                _, predicted = torch.max(output.data, 1)
+                total_train += target.size(0)
+                correct_train += (predicted == target).sum().item()
+                
+                batch_count += 1
+                
+                # Mostrar progreso cada 100 batches
+                if batch_idx % 100 == 0 and batch_idx > 0:
+                    print(".", end="")
             
-            total_train_loss += loss.item()
-            _, predicted = torch.max(output.data, 1)
-            total_train += target.size(0)
-            correct_train += (predicted == target).sum().item()
+            if batch_count == 0:
+                print(" ❌ No se procesaron batches de entrenamiento")
+                break
+                
+            avg_train_loss = total_train_loss / batch_count
+            train_accuracy = 100 * correct_train / total_train
+            
+        except Exception as e:
+            print(f" ❌ Error en entrenamiento: {str(e)}")
+            break
         
-        avg_train_loss = total_train_loss / len(train_loader)
-        train_accuracy = 100 * correct_train / total_train
-        
-        # === VALIDACIÓN ===
+        # === FASE DE VALIDACIÓN ===
         model.eval()
         total_val_loss = 0
         correct_val = 0
         total_val = 0
         
-        with torch.no_grad():
-            for data, target in val_loader:
-                data, target = data.to(device, non_blocking=True), target.to(device, non_blocking=True)
-                
-                if scaler is not None:
-                    with torch.cuda.amp.autocast():
-                        output = model(data)
-                        loss = criterion(output, target)
-                else:
+        print(" Validando...", end="")
+        
+        try:
+            batch_count = 0
+            with torch.no_grad():
+                for data, target in val_loader:
+                    data, target = data.to(device), target.to(device)
                     output = model(data)
                     loss = criterion(output, target)
+                    
+                    total_val_loss += loss.item()
+                    _, predicted = torch.max(output.data, 1)
+                    total_val += target.size(0)
+                    correct_val += (predicted == target).sum().item()
+                    batch_count += 1
+            
+            if batch_count == 0:
+                print(" ❌ No se procesaron batches de validación")
+                break
                 
-                total_val_loss += loss.item()
-                _, predicted = torch.max(output.data, 1)
-                total_val += target.size(0)
-                correct_val += (predicted == target).sum().item()
+            avg_val_loss = total_val_loss / batch_count
+            val_accuracy = 100 * correct_val / total_val
+            
+        except Exception as e:
+            print(f" ❌ Error en validación: {str(e)}")
+            break
         
-        avg_val_loss = total_val_loss / len(val_loader)
-        val_accuracy = 100 * correct_val / total_val
-        
-        # Actualizar scheduler
+        # Aplicar scheduler
         if scheduler is not None:
-            if isinstance(scheduler, optim.lr_scheduler.ReduceLROnPlateau):
-                scheduler.step(avg_val_loss)
-            else:
-                scheduler.step()
+            old_lr = optimizer.param_groups[0]['lr']
+            scheduler.step(avg_val_loss)
+            new_lr = optimizer.param_groups[0]['lr']
+            if new_lr != old_lr:
+                print(f"\n   📉 Learning rate reducido de {old_lr:.6f} a {new_lr:.6f}")
         
         # Guardar métricas
         train_losses.append(avg_train_loss)
         val_losses.append(avg_val_loss)
         train_accuracies.append(train_accuracy)
         val_accuracies.append(val_accuracy)
-        learning_rates.append(optimizer.param_groups[0]['lr'])
         
         # Early stopping
         if avg_val_loss < best_val_loss:
@@ -602,37 +607,27 @@ def train_model_with_progress(model, train_loader, val_loader, criterion, optimi
             patience_counter = 0
         else:
             patience_counter += 1
-
         
-        # Calcular tiempo
         epoch_time = time.time() - start_time
         
-        # Mostrar resultados con colores
-        print(f"   \033[94mÉpoca {epoch+1:2d}/{epochs}\033[0m | "
-              f"\033[92mTrain Loss: {avg_train_loss:.4f}\033[0m | "
-              f"\033[92mTrain Acc: {train_accuracy:5.2f}%\033[0m | "
-              f"\033[96mVal Loss: {avg_val_loss:.4f}\033[0m | "
-              f"\033[96mVal Acc: {val_accuracy:5.2f}%\033[0m | "
-              f"\033[93mLR: {optimizer.param_groups[0]['lr']:.6f}\033[0m | "
-              f"\033[95mTiempo: {epoch_time:.1f}s\033[0m")
+        # Mostrar progreso
+        print(f" ✅")
+        print(f"      📈 Train: Loss={avg_train_loss:.4f}, Acc={train_accuracy:5.2f}%")
+        print(f"      📊 Val: Loss={avg_val_loss:.4f}, Acc={val_accuracy:5.2f}%")
+        print(f"      ⏱️ Tiempo: {epoch_time:.1f}s | Paciencia: {patience_counter}/{early_stopping_patience}")
         
         # Early stopping check
         if patience_counter >= early_stopping_patience:
-            print(f"   \033[93mEarly stopping activado en época {epoch+1}\033[0m")
+            print(f"   ⏹️ Early stopping activado en época {epoch+1}")
             break
-        
-        # Limpiar caché de GPU
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
     
-    print(f"\033[92mEntrenamiento de {model_name} completado! Mejor val loss: {best_val_loss:.4f}\033[0m")
+    print(f"   🏁 Entrenamiento completado. Mejor val loss: {best_val_loss:.4f}")
     
     return {
         'train_losses': train_losses,
         'val_losses': val_losses,
         'train_accuracies': train_accuracies,
         'val_accuracies': val_accuracies,
-        'learning_rates': learning_rates,
         'best_val_loss': best_val_loss
     }
 
@@ -766,7 +761,7 @@ print(f"\033[92mMejor learning rate identificado: {best_learning_rate}\033[0m")
 
 # CELDA 12: Entrenamiento de modelos principales
 def train_main_models(vocab_size, config, train_loader, val_loader, best_lr):
-    print("\n\033[96mENTRENAMIENTO DE MODELOS PRINCIPALES\033[0m")
+    print(f"\n🏗️ ENTRENAMIENTO DE MODELOS PRINCIPALES")
     print("=" * 50)
     
     # Configuración de modelos
@@ -781,50 +776,51 @@ def train_main_models(vocab_size, config, train_loader, val_loader, best_lr):
     model_names = []
     
     for model_name, model_class in models_config:
-        print(f"\n{'='*20} \033[95m{model_name}\033[0m {'='*20}")
+        print(f"\n{'='*20} {model_name} {'='*20}")
         
-        # Crear modelo
-        model = model_class(
-            vocab_size,
-            config['embedding_dim'],
-            config['hidden_size'],
-            config['num_layers'],
-            config['dropout']
-        ).to(config['device'])
-        
-        # Mostrar información del modelo
-        total_params = sum(p.numel() for p in model.parameters())
-        trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-        
-        print(f"\033[94mInformación del modelo {model_name}:\033[0m")
-        print(f"   \033[93mParámetros totales: {total_params:,}\033[0m")
-        print(f"   \033[93mParámetros entrenables: {trainable_params:,}\033[0m")
-        print(f"   \033[93mMemoria estimada: {total_params * 4 / 1e6:.1f} MB\033[0m")
-        
-        # Configurar entrenamiento con mejores prácticas
-        criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
-        optimizer = optim.AdamW(model.parameters(), lr=best_lr, weight_decay=1e-4, betas=(0.9, 0.999))
-        scheduler = optim.lr_scheduler.OneCycleLR(
-            optimizer, 
-            max_lr=best_lr * 2,
-            epochs=config['epochs_main'],
-            steps_per_epoch=len(train_loader),
-            pct_start=0.1,
-            anneal_strategy='cos'
-        )
-        
-        # Entrenar modelo
-        history = train_model_with_progress(
-            model, train_loader, val_loader, criterion, optimizer,
-            scheduler, config['epochs_main'], model_name
-        )
-        
-        # Guardar resultados
-        trained_models[model_name] = model
-        histories.append(history)
-        model_names.append(model_name)
-        
-        print(f"\033[92m{model_name} entrenado exitosamente!\033[0m")
+        try:
+            # Crear modelo
+            model = model_class(
+                vocab_size,
+                config['embedding_dim'],
+                config['hidden_size'],
+                config['num_layers'],
+                config['dropout']
+            ).to(config['device'])
+            
+            # Mostrar información del modelo
+            total_params = sum(p.numel() for p in model.parameters())
+            trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+            
+            print(f"📋 Información del modelo {model_name}:")
+            print(f"   🔢 Parámetros totales: {total_params:,}")
+            print(f"   🎯 Parámetros entrenables: {trainable_params:,}")
+            print(f"   💾 Memoria estimada: {total_params * 4 / 1e6:.1f} MB")
+            
+            # Configurar entrenamiento
+            criterion = nn.CrossEntropyLoss()
+            optimizer = optim.Adam(model.parameters(), lr=best_lr, weight_decay=1e-5)
+            scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+                optimizer, mode='min', patience=3, factor=0.5, verbose=True
+            )
+            
+            # Entrenar modelo
+            history = train_model_with_progress(
+                model, train_loader, val_loader, criterion, optimizer,
+                scheduler, config['epochs_main'], model_name
+            )
+            
+            # Guardar resultados
+            trained_models[model_name] = model
+            histories.append(history)
+            model_names.append(model_name)
+            
+            print(f"✅ {model_name} entrenado exitosamente!")
+            
+        except Exception as e:
+            print(f"❌ Error entrenando {model_name}: {str(e)}")
+            # Continuar con el siguiente modelo
+            continue
         
         # Limpiar memoria GPU
         if torch.cuda.is_available():
