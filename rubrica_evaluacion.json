@@ -1,0 +1,244 @@
+{
+  "rubrica": {
+    "informacion_general": {
+      "institucion": "Subdirección de Diseño Instruccional / Subdirección de Evaluación de Resultados de Aprendizaje",
+      "año": 2024,
+      "tipo_pauta": "Rúbrica",
+      "modalidad_trabajo": "En pareja para desarrollo, individual para presentación y defensa"
+    },
+    "entregables": [
+      {
+        "nombre": "Primer entregable",
+        "descripcion": "Modelo RNN/LSTM mejorado, documentado y analizado",
+        "peso": "60%",
+        "componentes": [
+          "Implementar red neuronal recurrente (RNN, LSTM o GRU)",
+          "Ajustar hiperparámetros para optimizar rendimiento",
+          "Evaluar desempeño con métricas (accuracy, precision, recall, F1-score)",
+          "Presentar desarrollo en COLAB con justificaciones"
+        ]
+      },
+      {
+        "nombre": "Segundo entregable", 
+        "descripcion": "Modelo TRANSFORMER mejorado, documentado y analizado",
+        "peso": "40%",
+        "componentes": [
+          "Implementar arquitectura transformer básica (encoder-decoder, multi-head attention)",
+          "Explicar componentes clave y su influencia en desempeño",
+          "Aplicar transformer a tarea de NLP",
+          "Evaluar con métricas relevantes (BLEU Score, ROUGE)",
+          "Presentar desarrollo en COLAB"
+        ]
+      }
+    ],
+    "productos_entregar": {
+      "cuaderno_jupyter": {
+        "plataforma": "Google Colab",
+        "estructura_sugerida": [
+          "Introducción: Descripción del problema",
+          "Carga y preprocesamiento de datos",
+          "Definición del modelo",
+          "Justificación de selección y configuraciones",
+          "Entrenamiento y ajuste de hiperparámetros",
+          "Evaluación del modelo",
+          "Análisis y mejora del modelo",
+          "Conclusiones"
+        ],
+        "pautas_documentacion": [
+          "Uso de Markdown para explicar bloques de código",
+          "Comentarios en código",
+          "Gráficos y tablas para visualizar resultados",
+          "Código bien estructurado y modularizado"
+        ]
+      },
+      "presentacion_oral": {
+        "duracion_maxima": "10 minutos",
+        "estructura_sugerida": [
+          "Introducción al problema y objetivos",
+          "Explicación de arquitectura del modelo",
+          "Decisiones clave en implementación",
+          "Resultados obtenidos y análisis de métricas",
+          "Comparación de configuraciones y mejoras",
+          "Conclusiones y reflexiones finales"
+        ],
+        "requisitos": [
+          "Explicación clara y concisa",
+          "Uso de gráficos y tablas",
+          "Justificación de decisiones",
+          "Gestión adecuada del tiempo"
+        ]
+      }
+    },
+    "niveles_desempeño": {
+      "muy_buen_desempeño": {
+        "porcentaje": 100,
+        "descripcion": "Demuestra un desempeño destacado, evidenciando el logro de todos los aspectos evaluados en el indicador"
+      },
+      "buen_desempeño": {
+        "porcentaje": 80,
+        "descripcion": "Demuestra un alto desempeño del indicador, presentando pequeñas omisiones, dificultades y/o errores"
+      },
+      "desempeño_aceptable": {
+        "porcentaje": 60,
+        "descripcion": "Demuestra un desempeño competente, evidenciando el logro de los elementos básicos del indicador, pero con omisiones, dificultades o errores"
+      },
+      "desempeño_incipiente": {
+        "porcentaje": 30,
+        "descripcion": "Presenta importantes omisiones, dificultades o errores en el desempeño, que no permiten evidenciar los elementos básicos del logro del indicador"
+      },
+      "desempeño_no_logrado": {
+        "porcentaje": 0,
+        "descripcion": "Presenta ausencia o incorrecto desempeño"
+      }
+    },
+    "dimensiones": {
+      "encargo": {
+        "modalidad": "En parejas",
+        "peso_porcentual": 30,
+        "indicadores": [
+          {
+            "codigo": "IEE 2.3.1",
+            "descripcion": "Justifica la elección entre RNN y LSTM, explicando los ajustes de hiperparámetros y su efecto en el desempeño del modelo, con base en métricas como accuracy y F1-score",
+            "ponderacion": "3%",
+            "criterios_evaluacion": {
+              "muy_buen_desempeño": "Justifica la elección entre RNN y LSTM, explicando con precisión los ajustes de hiperparámetros y su impacto en el desempeño del modelo. Utiliza métricas como accuracy y F1-score de manera efectiva para respaldar su elección, mostrando un análisis profundo y comparativo.",
+              "buen_desempeño": "Justifica la elección entre RNN y LSTM, explicando los ajustes de hiperparámetros y su efecto en el desempeño del modelo. Utiliza métricas como accuracy y F1-score para respaldar su elección, aunque el análisis tiene algunas omisiones.",
+              "desempeño_aceptable": "Justifica la elección entre RNN y LSTM, mencionando algunos ajustes de hiperparámetros pero su impacto es limitado en el modelo. Utiliza métricas como accuracy y F1-score, pero el análisis es superficial y carece de profundidad comparativa.",
+              "desempeño_incipiente": "Justifica superficialmente la elección entre RNN y LSTM, sin explicar claramente los ajustes de hiperparámetros o su efecto en el modelo. Utiliza métricas como accuracy y F1-score de manera limitada o incorrecta. El análisis es confuso.",
+              "desempeño_no_logrado": "No justifica la selección entre modelos o no realiza la elección."
+            }
+          },
+          {
+            "codigo": "IEE 2.3.2",
+            "descripcion": "Describe el impacto de los hiperparámetros ajustados (épocas, tasa de aprendizaje, tamaño del lote) en la precisión y eficacia del modelo, sustentándolo con evidencia técnica",
+            "ponderacion": "4%",
+            "criterios_evaluacion": {
+              "muy_buen_desempeño": "Describe de manera clara y detallada el impacto de los hiperparámetros ajustados en la precisión y eficacia del modelo. Sustenta su análisis con evidencia técnica sólida, como gráficos, tablas comparativas o resultados experimentales. Explica de manera precisa cómo cada hiperparámetro influye en el rendimiento del modelo.",
+              "buen_desempeño": "Describe el impacto de los hiperparámetros ajustados en la precisión y eficacia del modelo, sustentando su análisis con evidencia técnica, aunque falta profundidad. Explica de manera general cómo los hiperparámetros afectan el rendimiento, pero puede omitir detalles específicos.",
+              "desempeño_aceptable": "Describe de manera básica el impacto de los hiperparámetros ajustados en la precisión y eficacia del modelo. Menciona alguna evidencia técnica, pero esta es poco detallada. El análisis es superficial y no profundiza en la relación entre los hiperparámetros y el rendimiento del modelo.",
+              "desempeño_incipiente": "Describe superficialmente el impacto de los hiperparámetros ajustados, sin explicar claramente su relación con la precisión y eficacia del modelo. La evidencia técnica es escasa o poco relevante. El análisis es incompleto y carece de conclusiones claras. Explicación con poca claridad y sin comparaciones relevantes.",
+              "desempeño_no_logrado": "No describe el impacto de los hiperparámetros ajustados ni su relación con la precisión y eficacia del modelo. No presenta evidencia técnica o esta es incorrecta o irrelevante."
+            }
+          },
+          {
+            "codigo": "IEE 2.4.1",
+            "descripcion": "Analiza el desempeño del modelo mediante métricas como accuracy, F1-score, precisión y recall, interpretando los resultados en función de los ajustes de hiperparámetros",
+            "ponderacion": "5%",
+            "criterios_evaluacion": {
+              "muy_buen_desempeño": "Analiza el desempeño del modelo utilizando métricas como accuracy, F1-score, precisión y recall. Interpreta los resultados de forma clara y precisa, relacionándolos directamente con los ajustes de hiperparámetros realizados. Sustenta su análisis con evidencia técnica sólida (gráficos, tablas, etc.) y ofrece conclusiones bien fundamentadas.",
+              "buen_desempeño": "Analiza el desempeño del modelo utilizando métricas como accuracy, F1-score, precisión y recall, interpretando los resultados de manera general. Relaciona los resultados con los ajustes de hiperparámetros, aunque con menor profundidad que en el nivel superior. Presenta evidencia técnica, pero puede carecer de detalles específicos o conclusiones más elaboradas.",
+              "desempeño_aceptable": "Analiza de manera básica el desempeño del modelo utilizando algunas métricas (accuracy, F1-score, precisión o recall). La interpretación de los resultados es superficial y no profundiza en la relación con los ajustes de hiperparámetros. La evidencia técnica y las conclusiones son poco detalladas.",
+              "desempeño_incipiente": "Analiza superficialmente el desempeño del modelo utilizando alguna métrica, pero sin interpretar adecuadamente los resultados o relacionarlos con los ajustes de hiperparámetros. La evidencia técnica es escasa o poco relevante. El análisis es incompleto y carece de conclusiones claras.",
+              "desempeño_no_logrado": "No analiza el desempeño del modelo ni utiliza métricas como accuracy, F1-score, precisión o recall. No interpreta los resultados ni los relaciona con los ajustes de hiperparámetros."
+            }
+          },
+          {
+            "codigo": "IEE 2.4.2",
+            "descripcion": "Justifica la selección del modelo final con base en el impacto de las épocas utilizadas, la tasa de aprendizaje y el tamaño del lote en las métricas de evaluación",
+            "ponderacion": "5%",
+            "criterios_evaluacion": {
+              "muy_buen_desempeño": "Justifica la selección del modelo final, explicando el impacto de las épocas utilizadas, la tasa de aprendizaje y el tamaño del lote en las métricas de evaluación. Sustenta su análisis con evidencia técnica sólida (gráficos, tablas comparativas, etc.) y ofrece conclusiones bien fundamentadas, proponiendo mejoras basadas en los resultados obtenidos.",
+              "buen_desempeño": "Justifica la selección del modelo final, explicando el impacto de las épocas, la tasa de aprendizaje y el tamaño del lote en las métricas de evaluación. Presenta evidencia técnica, aunque con menor profundidad que en el nivel superior. Las conclusiones son claras, pero omite algunos aspectos para la selección.",
+              "desempeño_aceptable": "Justifica la selección del modelo final, mencionando el impacto de las épocas, la tasa de aprendizaje y el tamaño del lote en las métricas de evaluación. La evidencia técnica es limitada y el análisis es superficial, sin profundizar en la relación entre los hiperparámetros y el rendimiento del modelo.",
+              "desempeño_incipiente": "Justifica superficialmente la selección del modelo final, sin explicar claramente el impacto de las épocas, la tasa de aprendizaje o el tamaño del lote en las métricas de evaluación. La evidencia técnica es escasa, confusa o poco relevante. El análisis es incompleto y carece de conclusiones claras.",
+              "desempeño_no_logrado": "No justifica la selección del modelo final ni explica el impacto de las épocas, la tasa de aprendizaje o el tamaño del lote en las métricas de evaluación."
+            }
+          },
+          {
+            "codigo": "IEE 2.5.1",
+            "descripcion": "Implementa una arquitectura Transformer básica, describiendo sus componentes clave (como el encoder, decoder) y mecanismo de autoatención",
+            "ponderacion": "7%",
+            "criterios_evaluacion": {
+              "muy_buen_desempeño": "Implementa de manera correcta y eficiente una arquitectura Transformer básica, describiendo de forma clara y detallada sus componentes clave (encoder, decoder y mecanismo de autoatención). Explica con precisión el funcionamiento de cada componente y su interacción dentro de la arquitectura. Además, proporciona ejemplos o visualizaciones que refuerzan la comprensión de la implementación.",
+              "buen_desempeño": "Implementa una arquitectura Transformer básica, describiendo sus componentes clave (encoder, decoder y mecanismo de autoatención). La explicación es clara, pero omite algunos detalles técnicos o ejemplos ilustrativos. La implementación es funcional y demuestra comprensión de los conceptos principales.",
+              "desempeño_aceptable": "Implementa una arquitectura Transformer básica, mencionando de manera general sus componentes clave (encoder, decoder y mecanismo de autoatención). La descripción es superficial y carece de detalles técnicos profundos. La implementación puede presentar algunos errores menores.",
+              "desempeño_incipiente": "Implementa una arquitectura Transformer básica, mencionando algunos de sus componentes clave (encoder, decoder o mecanismo de autoatención) de forma incompleta. La descripción es confusa y la implementación presenta errores significativos que afectan su funcionalidad.",
+              "desempeño_no_logrado": "No implementa una arquitectura Transformer básica ni describe sus componentes clave."
+            }
+          },
+          {
+            "codigo": "IEE 2.5.2",
+            "descripcion": "Describe el funcionamiento de los elementos esenciales del modelo y analiza la calidad de los resultados a través de ejemplos de salida aplicados a un problema de NLP",
+            "ponderacion": "6%",
+            "criterios_evaluacion": {
+              "muy_buen_desempeño": "Describe el funcionamiento de los elementos esenciales del modelo, explicando su rol y contribución al procesamiento del lenguaje natural (NLP). Analiza exhaustivamente la calidad de los resultados a través de ejemplos de salida aplicados a un problema de NLP, interpretando los aciertos y errores del modelo de manera crítica.",
+              "buen_desempeño": "Describe el funcionamiento de los elementos esenciales del modelo, explicando su rol en el procesamiento del lenguaje natural (NLP). Analiza la calidad de los resultados mediante ejemplos de salida aplicados a un problema de NLP. La interpretación de los resultados es clara, pero omitió algunos elementos de este.",
+              "desempeño_aceptable": "Describe el funcionamiento de los elementos esenciales del modelo, mencionando su rol en el procesamiento de lenguaje natural (NLP). Analiza la calidad de los resultados a través de ejemplos de salida, pero el análisis es superficial y no profundiza en la interpretación de los aciertos o errores del modelo.",
+              "desempeño_incipiente": "Describe superficialmente el funcionamiento de algunos elementos esenciales del modelo, sin explicar claramente su rol en el procesamiento del lenguaje natural (NLP). El análisis de la calidad de los resultados carece de ejemplos de salida relevantes. La interpretación de los resultados es incompleta o poco clara.",
+              "desempeño_no_logrado": "No describe el funcionamiento de los elementos esenciales del modelo ni analiza la calidad de los resultados."
+            }
+          }
+        ]
+      },
+      "presentacion": {
+        "modalidad": "Individual",
+        "peso_porcentual": 70,
+        "indicadores": [
+          {
+            "codigo": "IEP 2.3.1",
+            "descripcion": "Explica de manera clara la selección de la arquitectura y los hiperparámetros ajustados, comparando diferentes configuraciones y justificando su impacto en el desempeño del modelo con las métricas de accuracy, F1-score y ejemplos concretos de su evolución",
+            "ponderacion": "17%",
+            "criterios_evaluacion": {
+              "muy_buen_desempeño": "Explica la selección de la arquitectura y los hiperparámetros ajustados. Compara diferentes configuraciones de manera detallada, justificando su impacto en el desempeño del modelo con métricas como accuracy y F1-score, respaldado con ejemplos concretos de su evolución. Demuestra un dominio completo del tema y utiliza recursos visuales o ejemplos prácticos para reforzar su explicación.",
+              "buen_desempeño": "Explica la selección de la arquitectura y los hiperparámetros ajustados, comparando diferentes configuraciones y justificando su impacto en el desempeño del modelo con métricas como accuracy y F1-score. Incluye ejemplos, pero omite algunos aspectos en ellos. Demuestra un buen manejo del tema.",
+              "desempeño_aceptable": "Explica de manera general la selección de la arquitectura y los hiperparámetros ajustados, mencionando algunas comparaciones entre configuraciones y su impacto en el desempeño del modelo. Utiliza métricas como accuracy y F1-score, pero el análisis es superficial y los ejemplos son limitados. Demuestra un manejo básico del tema.",
+              "desempeño_incipiente": "Explica de manera superficial la selección de la arquitectura y los hiperparámetros ajustados, sin comparar configuraciones ni justificar adecuadamente su impacto en el desempeño del modelo. Las métricas como accuracy y F1-score se mencionan de forma incompleta, y los ejemplos son escasos o irrelevantes. Demuestra un manejo limitado del tema.",
+              "desempeño_no_logrado": "No explica la selección de la arquitectura ni los hiperparámetros ajustados."
+            }
+          },
+          {
+            "codigo": "IEP 2.4.1",
+            "descripcion": "Explica con claridad el significado de cada métrica utilizada en la evaluación del modelo, comparando el rendimiento de diferentes configuraciones y justificando la mejor opción según el problema planteado",
+            "ponderacion": "25%",
+            "criterios_evaluacion": {
+              "muy_buen_desempeño": "Explica el significado de cada métrica utilizada en la evaluación del modelo, relacionándolas con el problema planteado. Compara de manera detallada el rendimiento de diferentes configuraciones, justificando la mejor opción con argumentos sólidos y ejemplos concretos. Demuestra un dominio completo del tema.",
+              "buen_desempeño": "Explica con claridad el significado de las métricas utilizadas en la evaluación del modelo, relacionándolas con el problema planteado. Compara el rendimiento de diferentes configuraciones y justifica la mejor opción, aunque puede carecer de profundidad en algunos aspectos. Su manejo del tema es correcto, pero omite algunos aspectos de importancia.",
+              "desempeño_aceptable": "Explica el significado de las métricas utilizadas en la evaluación del modelo, mencionando su relación con el problema planteado. Compara el rendimiento de algunas configuraciones, pero el análisis es superficial y la justificación de la mejor opción es básica. Demuestra un manejo básico del tema.",
+              "desempeño_incipiente": "Explica superficialmente el significado de algunas métricas utilizadas en la evaluación del modelo, sin relacionarlas claramente con el problema planteado. La comparación de configuraciones es limitada o confusa, y la justificación de la mejor opción es incompleta o poco clara. Demuestra un manejo limitado del tema.",
+              "desempeño_no_logrado": "No explica el significado de las métricas utilizadas en la evaluación del modelo ni las relaciona con el problema planteado."
+            }
+          },
+          {
+            "codigo": "IEP 2.5.1",
+            "descripcion": "Explica de manera clara y concisa el funcionamiento del modelo, destacando las diferencias clave entre arquitecturas tradicionales y transformadores",
+            "ponderacion": "28%",
+            "criterios_evaluacion": {
+              "muy_buen_desempeño": "Explica de manera clara, concisa y estructurada el funcionamiento del modelo, destacando de forma precisa las diferencias clave entre arquitecturas tradicionales (como RNN o LSTM) y transformadores (por ejemplo, mecanismo de autoatención, paralelización, etc.). Demuestra un dominio completo del tema. Además, emplea recursos visuales o gráficos para reforzar su explicación.",
+              "buen_desempeño": "Explica el funcionamiento del modelo, destacando las diferencias clave entre arquitecturas tradicionales y transformadores. La explicación es precisa, aunque omite algunos detalles técnicos o ejemplos ilustrativos. Demuestra un buen manejo del tema.",
+              "desempeño_aceptable": "Explica el funcionamiento del modelo, mencionando algunas diferencias entre arquitecturas tradicionales y transformadores. La explicación es superficial y carece de detalles técnicos profundos. Demuestra un manejo básico del tema.",
+              "desempeño_incipiente": "Explica superficialmente el funcionamiento del modelo, con errores en las diferencias clave entre arquitecturas tradicionales y transformadores. La explicación es confusa o incompleta, y no se profundiza en los conceptos. Demuestra un manejo limitado del tema.",
+              "desempeño_no_logrado": "No explica el funcionamiento del modelo ni destaca las diferencias entre arquitecturas tradicionales y transformadores."
+            }
+          }
+        ]
+      }
+    },
+    "distribucion_pesos": {
+      "encargo": "30%",
+      "presentacion": "70%",
+      "total": "100%"
+    },
+    "herramientas_recomendadas": [
+      "TensorFlow/Keras",
+      "PyTorch",
+      "Google Colab",
+      "Jupyter Notebook"
+    ],
+    "metricas_evaluacion": {
+      "rnn_lstm": [
+        "accuracy",
+        "precision", 
+        "recall",
+        "F1-score"
+      ],
+      "transformer": [
+        "BLEU Score",
+        "ROUGE"
+      ]
+    },
+    "tareas_nlp_sugeridas": [
+      "Traducción automática",
+      "Generación de texto"
+    ]
+  }
+}

@@ -1,57 +1,90 @@
-# Archivos grandes (>10MB) - Git LFS debería manejar estos
+# Ignore files larger than 10MB
+# Note: This requires using Git LFS or manually checking file sizes
+# You'll need to run a script to find and add large files
+
+# Compressed files
 *.zip
-*.tar
-*.tar.gz
 *.rar
+*.gz
+*.tar
 *.7z
+*.bz2
+*.xz
+*.tgz
 *.iso
-*.dmg
-*.pkg
-*.deb
-*.rpm
 
-# Archivos de datos y documentos
-*.xlsx
-*.xls
-*.xlsm
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Virtual environments
+venv/
+ENV/
+env/
+.env
+.venv
+env.bak/
+venv.bak/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Data files that are often large
 *.csv
-*.tsv
-*.json
-*.xml
-*.sql
-*.db
 *.sqlite
-*.sqlite3
-*.mdb
-*.accdb
+*.db
+*.hdf5
+*.h5
+*.pkl
+*.pickle
 
-# Archivos multimedia
-*.mp4
-*.avi
-*.mkv
-*.mov
-*.wmv
-*.flv
-*.webm
-*.mp3
-*.wav
-*.flac
-*.aac
-*.ogg
-*.wma
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.bmp
-*.tiff
-*.svg
-*.ico
-*.psd
-*.ai
-*.eps
+# Model files that are often large
+*.pt
+*.pth
+*.model
+*.bin
+*.onnx
+*.tflite
+*.pb
+*.savedmodel
 
-# Archivos de sistema
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+tmp/
+temp/
+
+# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -59,58 +92,3 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-desktop.ini
-
-# IDEs y editores
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.project
-.classpath
-.settings/
-*.sublime-project
-*.sublime-workspace
-
-# Dependencias y builds
-node_modules/
-bower_components/
-vendor/
-dist/
-build/
-target/
-bin/
-obj/
-*.log
-*.tmp
-*.temp
-
-# Archivos de configuración sensibles
-.env
-.env.local
-.env.production
-.env.staging
-config.json
-secrets.json
-*.key
-*.pem
-*.p12
-*.pfx
-
-# Archivos de respaldo
-*.bak
-*.backup
-*.old
-*.orig
-*~
-
-# Carpetas comunes de datos
-data/
-datasets/
-uploads/
-downloads/
-temp/
-tmp/
-cache/
-logs/
