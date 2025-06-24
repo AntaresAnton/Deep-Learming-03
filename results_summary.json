@@ -1,0 +1,40 @@
+{
+  "winner": "SimpleRNN",
+  "final_metrics": {
+    "loss": 0.00019440967662376352,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "all_models_comparison": {
+    "SimpleRNN": {
+      "loss": 0.00019440967662376352,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "LSTM": {
+      "loss": 0.00020088721915575056,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "GRU": {
+      "loss": 0.0002106747933794395,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "Transformer": {
+      "loss": 0.0006143942300695926,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  }
+}

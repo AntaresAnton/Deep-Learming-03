@@ -1,0 +1,12 @@
+{
+  "vocab_size": 111,
+  "output_dim": 6,
+  "epochs": 15,
+  "patience": 5,
+  "weight_decay": 1e-05,
+  "embedding_dim": 64,
+  "hidden_dim": 128,
+  "num_layers": 1,
+  "dropout": 0.3,
+  "learning_rate": 0.001
+}
